@@ -17,7 +17,7 @@ public class Main {
     static double averageOfList;
     static double scaleFactor =1.00;
     static double crossOverRate =0.6;
-    static int populationSize =1000;
+    static int populationSize =100;
     public static void main(String[] args) {
 
         Random rand = new Random();
@@ -119,15 +119,16 @@ public class Main {
                 pos =i;
             }
         }
-
-        System.out.printf("best sse: %f\n", best);
-        System.out.print("," +"pop size " + population.size() +","  + "Scale factor " + scaleFactor + "," + "cross over rate " + crossOverRate);
-
         Double[] finalVector = population.get(pos);
+        table = testtable;
+        valueList=testvalueList;
+        System.out.printf("best sse: %f\n", evaluateFitness(finalVector));
+        System.out.print("," +"pop size " + population.size() +","  + "Scale factor " + scaleFactor + "," + "cross over rate " + crossOverRate);
         for(int i =0 ; i < finalVector.length; i++)
         {
             System.out.print(finalVector[i]+",");
         }
+
 
     }
 
