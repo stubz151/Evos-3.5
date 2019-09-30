@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,8 +15,9 @@ public class Main {
     static ArrayList<Double[]> population = new ArrayList<>();
     static ArrayList<Double> fitnessList = new ArrayList<>();
     static double averageOfList;
-    static double scaleFactor =0.4;
-    static double crossOverRate =0.4;
+    static double scaleFactor =1.00;
+    static double crossOverRate =0.6;
+    static int populationSize =1000;
     public static void main(String[] args) {
 
         Random rand = new Random();
@@ -54,7 +54,6 @@ public class Main {
             total += x;
         }
         averageOfList = total / valueList.size();
-        int populationSize = 100;
         int iterations = 10000;
         //Randomly gen population
         for (int i = 0; i < populationSize; i++) {
@@ -66,7 +65,6 @@ public class Main {
             population.add(vector);
             fitnessList.add(evaluateFitness(vector));
         }
-        System.out.println(evaluateFitness(population.get(5)));
         //Start Training
         for (int i = 0; i < iterations; i++) {
             ArrayList<Double> trialfitnessList = new ArrayList<>();
@@ -88,10 +86,6 @@ public class Main {
                 Double[] newVector = new Double[8];
                 for (int k = 0; k <= 7; k++) {
                     newVector[k] = vector1[k] + (scaleFactor * (vector2[k] - vector3[k]));
-                    if (newVector[k] <0.00)
-                    {
-                        newVector[k] = 0.00;
-                    }
                 }
 
                 //creating trial vector
@@ -112,23 +106,27 @@ public class Main {
                 }
             }
         }
-        System.out.println(evaluateFitness(population.get(5)));
+
 
         //Get best unit from population
         double best = 10000000000000000.00;
         int pos =0;
         for (int i = 0; i < population.size(); i++)
         {
-            if (fitnessList.get(i)>best)
+            if (fitnessList.get(i)<best)
             {
                 best = fitnessList.get(i);
                 pos =i;
             }
         }
+
+        System.out.printf("best sse: %f\n", best);
+        System.out.print("," +"pop size " + population.size() +","  + "Scale factor " + scaleFactor + "," + "cross over rate " + crossOverRate);
+
         Double[] finalVector = population.get(pos);
         for(int i =0 ; i < finalVector.length; i++)
         {
-            System.out.println(finalVector[i]);
+            System.out.print(finalVector[i]+",");
         }
 
     }
